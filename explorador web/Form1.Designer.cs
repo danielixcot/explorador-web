@@ -30,14 +30,16 @@ namespace explorador_web
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.navegarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inicioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.haciaAtrasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.haciaAdelanteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -46,14 +48,46 @@ namespace explorador_web
             this.navegarToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(664, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(660, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // navegarToolStripMenuItem
+            // 
+            this.navegarToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.inicioToolStripMenuItem,
+            this.haciaAtrasToolStripMenuItem,
+            this.haciaAdelanteToolStripMenuItem});
+            this.navegarToolStripMenuItem.Name = "navegarToolStripMenuItem";
+            this.navegarToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.navegarToolStripMenuItem.Text = "Navegar";
+            // 
+            // inicioToolStripMenuItem
+            // 
+            this.inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
+            this.inicioToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.inicioToolStripMenuItem.Text = "Inicio";
+            this.inicioToolStripMenuItem.Click += new System.EventHandler(this.inicioToolStripMenuItem_Click);
+            // 
+            // haciaAtrasToolStripMenuItem
+            // 
+            this.haciaAtrasToolStripMenuItem.Name = "haciaAtrasToolStripMenuItem";
+            this.haciaAtrasToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.haciaAtrasToolStripMenuItem.Text = "Hacia atras";
+            this.haciaAtrasToolStripMenuItem.Click += new System.EventHandler(this.haciaAtrasToolStripMenuItem_Click);
+            // 
+            // haciaAdelanteToolStripMenuItem
+            // 
+            this.haciaAdelanteToolStripMenuItem.Name = "haciaAdelanteToolStripMenuItem";
+            this.haciaAdelanteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.haciaAdelanteToolStripMenuItem.Text = "Hacia adelante";
+            this.haciaAdelanteToolStripMenuItem.Click += new System.EventHandler(this.haciaAdelanteToolStripMenuItem_Click);
             // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
+            " https://www.google.com/search?q",
             "https://virtual.mesoamericana.edu.gt/",
             "https://github.com/danielixcot",
             "www.amazon.com/"});
@@ -72,51 +106,24 @@ namespace explorador_web
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // webBrowser1
+            // webView21
             // 
-            this.webBrowser1.Location = new System.Drawing.Point(12, 74);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(636, 305);
-            this.webBrowser1.TabIndex = 3;
-            // 
-            // navegarToolStripMenuItem
-            // 
-            this.navegarToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.inicioToolStripMenuItem,
-            this.haciaAtrasToolStripMenuItem,
-            this.haciaAdelanteToolStripMenuItem});
-            this.navegarToolStripMenuItem.Name = "navegarToolStripMenuItem";
-            this.navegarToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
-            this.navegarToolStripMenuItem.Text = "Navegar";
-            // 
-            // inicioToolStripMenuItem
-            // 
-            this.inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
-            this.inicioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.inicioToolStripMenuItem.Text = "Inicio";
-            this.inicioToolStripMenuItem.Click += new System.EventHandler(this.inicioToolStripMenuItem_Click);
-            // 
-            // haciaAtrasToolStripMenuItem
-            // 
-            this.haciaAtrasToolStripMenuItem.Name = "haciaAtrasToolStripMenuItem";
-            this.haciaAtrasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.haciaAtrasToolStripMenuItem.Text = "Hacia atras";
-            this.haciaAtrasToolStripMenuItem.Click += new System.EventHandler(this.haciaAtrasToolStripMenuItem_Click);
-            // 
-            // haciaAdelanteToolStripMenuItem
-            // 
-            this.haciaAdelanteToolStripMenuItem.Name = "haciaAdelanteToolStripMenuItem";
-            this.haciaAdelanteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.haciaAdelanteToolStripMenuItem.Text = "Hacia adelante";
-            this.haciaAdelanteToolStripMenuItem.Click += new System.EventHandler(this.haciaAdelanteToolStripMenuItem_Click);
+            this.webView21.AllowExternalDrop = true;
+            this.webView21.CreationProperties = null;
+            this.webView21.DefaultBackgroundColor = System.Drawing.Color.White;
+            this.webView21.Location = new System.Drawing.Point(12, 64);
+            this.webView21.Name = "webView21";
+            this.webView21.Size = new System.Drawing.Size(636, 398);
+            this.webView21.Source = new System.Uri("https://www.microsoft.com", System.UriKind.Absolute);
+            this.webView21.TabIndex = 4;
+            this.webView21.ZoomFactor = 1D;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 395);
-            this.Controls.Add(this.webBrowser1);
+            this.ClientSize = new System.Drawing.Size(660, 474);
+            this.Controls.Add(this.webView21);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.menuStrip1);
@@ -124,8 +131,10 @@ namespace explorador_web
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Explorador Web";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.webView21)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,7 +149,8 @@ namespace explorador_web
         private System.Windows.Forms.ToolStripMenuItem inicioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem haciaAtrasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem haciaAdelanteToolStripMenuItem;
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
     }
 }
 
