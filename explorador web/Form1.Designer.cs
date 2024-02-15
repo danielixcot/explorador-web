@@ -51,6 +51,7 @@ namespace explorador_web
             this.menuStrip1.Size = new System.Drawing.Size(660, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // navegarToolStripMenuItem
             // 
@@ -86,11 +87,6 @@ namespace explorador_web
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            " https://www.google.com/search?q",
-            "https://virtual.mesoamericana.edu.gt/",
-            "https://github.com/danielixcot",
-            "www.amazon.com/"});
             this.comboBox1.Location = new System.Drawing.Point(12, 37);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(535, 21);
@@ -114,7 +110,7 @@ namespace explorador_web
             this.webView21.Location = new System.Drawing.Point(12, 64);
             this.webView21.Name = "webView21";
             this.webView21.Size = new System.Drawing.Size(636, 398);
-            this.webView21.Source = new System.Uri("https://www.microsoft.com", System.UriKind.Absolute);
+            this.webView21.Source = new System.Uri("https://www.bing.com", System.UriKind.Absolute);
             this.webView21.TabIndex = 4;
             this.webView21.ZoomFactor = 1D;
             // 

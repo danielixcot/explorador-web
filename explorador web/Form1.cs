@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
+using System.IO;
 
 namespace explorador_web
 {
@@ -18,7 +19,13 @@ namespace explorador_web
             InitializeComponent();
             this.Resize += new System.EventHandler(this.Form_Resize);
         }
-
+        private void Guardar(string fileName, string texto)
+        {
+            FileStream stream = new FileStream(fileName, FileMode.Append, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(stream);
+            writer.WriteLine(texto);
+            writer.Close();
+        }
         private void Form_Resize(object sender, EventArgs e)
         {
             webView21.Size = this.ClientSize - new System.Drawing.Size(webView21.Location);
@@ -47,6 +54,9 @@ namespace explorador_web
                     webView21.CoreWebView2.Navigate(url);
                 }
             }
+            Guardar("historial.txt", comboBox1.Text);
+            comboBox1.Items.Add(comboBox1.Text.ToString());
+            
         }
 
         private void inicioToolStripMenuItem_Click(object sender, EventArgs e)
@@ -66,8 +76,22 @@ namespace explorador_web
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox1.SelectedIndex = 0;
-            //webView21.CoreWebView2.Navigate("https://www.microsoft.com");
+            string fileName = @"C:\Users\Daniel_ixcot\Downloads\explorador web\explorador web\bin\Debug\historial.txt";
+
+            FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(stream);
+            while (reader.Peek() > -1)
+
+            {
+                string textoLeido = reader.ReadLine();
+                comboBox1.Items.Add(textoLeido);
+            }
+            reader.Close();
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }
