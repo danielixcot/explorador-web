@@ -14,16 +14,23 @@ namespace explorador_web
 {
     public partial class Form1 : Form
     {
+        List<URL> urls = new List<URL>();
         public Form1()
         {
             InitializeComponent();
             this.Resize += new System.EventHandler(this.Form_Resize);
         }
-        private void Guardar(string fileName, string texto)
+        private void Guardar(string fileName)
         {
-            FileStream stream = new FileStream(fileName, FileMode.Append, FileAccess.Write);
+            FileStream stream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write);
             StreamWriter writer = new StreamWriter(stream);
-            writer.WriteLine(texto);
+ 
+            foreach (var url in urls)
+            {
+                writer.WriteLine(url.Pagina);
+                writer.WriteLine(url.Veces);
+                writer.WriteLine(url.Fecha);
+            }
             writer.Close();
         }
         private void Form_Resize(object sender, EventArgs e)
@@ -54,8 +61,26 @@ namespace explorador_web
                     webView21.CoreWebView2.Navigate(url);
                 }
             }
-            Guardar("historial.txt", comboBox1.Text);
-            comboBox1.Items.Add(comboBox1.Text.ToString());
+
+            URL urlExiste = urls.Find(u => u.Pagina == url);
+            if (urlExiste == null)
+            {
+                URL urlNueva = new URL();
+                urlNueva.Pagina = url;
+                urlNueva.Veces = 1;
+                urlNueva.Fecha = DateTime.Now;
+                urls.Add(urlNueva);
+                Guardar("historial.txt");
+                webView21.CoreWebView2.Navigate(url);
+            }
+            else
+            {
+                urlExiste.Veces++;
+                urlExiste.Fecha = DateTime.Now;
+                Guardar("historial.txt");
+                webView21.CoreWebView2.Navigate(urlExiste.Pagina);
+            }
+            
             
         }
 
@@ -83,10 +108,16 @@ namespace explorador_web
             while (reader.Peek() > -1)
 
             {
-                string textoLeido = reader.ReadLine();
-                comboBox1.Items.Add(textoLeido);
+                URL url = new URL();
+                url.Pagina = reader.ReadLine();
+                url.Veces = Convert.ToInt32(reader.ReadLine());
+                url.Fecha = Convert.ToDateTime(reader.ReadLine());
+                urls.Add(url);
             }
             reader.Close();
+            comboBox1.DisplayMember = "pagina";
+            comboBox1.DataSource = urls;
+            comboBox1.Refresh();
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
